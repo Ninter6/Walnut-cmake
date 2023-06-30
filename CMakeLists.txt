@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
+set(CMAKE_CXX_STANDARD 17)
+
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/glfw)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm)

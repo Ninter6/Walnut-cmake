@@ -83,8 +83,15 @@ static void SetupVulkan(const char** extensions, uint32_t extensions_count)
 	{
 		VkInstanceCreateInfo create_info = {};
 		create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		create_info.enabledExtensionCount = extensions_count;
-		create_info.ppEnabledExtensionNames = extensions;
+        std::vector<const char*> nextensions(extensions_count);
+        memcpy(nextensions.data(), extensions, extensions_count * sizeof(char*));
+#ifdef __APPLE__
+        // 启用 VK_KHR_portability_enumeration 扩展, 否则会报错
+        create_info.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        nextensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+#endif
+		create_info.enabledExtensionCount = (uint32_t)nextensions.size();
+		create_info.ppEnabledExtensionNames = nextensions.data();
 #ifdef IMGUI_VULKAN_DEBUG_REPORT
 		// Enabling validation layers
 		const char* layers[] = { "VK_LAYER_KHRONOS_validation" };

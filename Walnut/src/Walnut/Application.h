@@ -34,10 +34,9 @@ namespace Walnut {
 		void Run();
 		void SetMenubarCallback(const std::function<void()>& menubarCallback) { m_MenubarCallback = menubarCallback; }
 		
-		template<typename T>
+		template<typename T, typename = std::enable_if_t<std::is_base_of<Layer, T>::value>>
 		void PushLayer()
 		{
-			static_assert(std::is_base_of<Layer, T>::value, "Pushed type is not subclass of Layer!");
 			m_LayerStack.emplace_back(std::make_shared<T>())->OnAttach();
 		}
 
