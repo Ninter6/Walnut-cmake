@@ -15,6 +15,11 @@ link_libraries(glfw)
 link_libraries(imgui)
 link_libraries(glm)
 
+find_library(VULKAN_LIB vulkan REQUIRED)
+link_libraries(${VULKAN_LIB})
+find_path(VULKAN_HEADER vulkan/vulkan.h REQUIRED)
+include_directories(BEFORE ${VULKAN_HEADER})
+
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Walnut)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/WalnutApp)
